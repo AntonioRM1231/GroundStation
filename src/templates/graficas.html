@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
 <body>
     <nav></nav>
@@ -89,6 +90,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 
     <script>
+        var socket = io();
         // ======== CONFIGURACIÓN DE GRÁFICAS ========
         const xValues = [];
         const yValues = [];
@@ -231,25 +233,20 @@
         }
 
         // ======== LOOP DE SIMULACIÓN ========
-        function loop() {
+        socket.on('telemetria',function(trama){
+            console.log('Datos recibidos:', trama)
             const totalP = 3000, totalT = 100, totalV = 200;
-
             addData2(myChart5, trama.temperatura, totalT);
             addData2(myChart3, trama.aceleracion, totalV);
             addData2(myChart, trama.velocidad, totalV);
             addData(myChart9, trama.altitud);
-            //addData2(myChart7, trama.altitud, totalP);
-            //addData2(myChart8, trama.altitud, totalP);
-
             p_lat.textContent = trama.latitud.toFixed(3);
             p_lon.textContent = trama.longitud.toFixed(3);
             p_apo.textContent = trama.apogeo;
             p_arr.textContent = trama.evento_1;
             p_mai.textContent = trama.evento_2;
+        })
 
-        }
-
-        loop();
     </script>
 </body>
 </html>
