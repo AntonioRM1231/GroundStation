@@ -1,0 +1,11 @@
+# Carpetas de entornos virtuales
+venv/
+env/
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Base de datos local (SQLite o archivos de Docker/DB)
+*.sqlite3
+.db
