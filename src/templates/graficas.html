@@ -233,38 +233,20 @@
         // ======== LOOP DE SIMULACIÓN ========
         function loop() {
             const totalP = 3000, totalT = 100, totalV = 200;
-            const data = {
-                temperature: Math.floor(Math.random() * totalT),
-                acceleration_l: Math.random() * totalV,
-                speed_l: Math.random() * totalV,
-                altitud: Math.random() * 1000 + 1000,
-                latitud: Math.random() * 90,
-                longitud: Math.random() * 180,
-                apogeo: Boolean(Math.round(Math.random())),
-                evento_1: Boolean(Math.round(Math.random())),
-                evento_2: Boolean(Math.round(Math.random()))
-            };
 
-            addData2(myChart5, data.temperature, totalT);
-            addData2(myChart3, data.acceleration_l, totalV);
-            addData2(myChart, data.speed_l, totalV);
-            addData(myChart9, data.altitud);
-            addData2(myChart7, data.altitud, totalP);
-            addData2(myChart8, data.altitud, totalP);
+            addData2(myChart5, trama.temperatura, totalT);
+            addData2(myChart3, trama.aceleracion, totalV);
+            addData2(myChart, trama.velocidad, totalV);
+            addData(myChart9, trama.altitud);
+            //addData2(myChart7, trama.altitud, totalP);
+            //addData2(myChart8, trama.altitud, totalP);
 
-            p_lat.textContent = data.latitud.toFixed(3);
-            p_lon.textContent = data.longitud.toFixed(3);
-            p_apo.textContent = data.apogeo;
-            p_arr.textContent = data.evento_1;
-            p_mai.textContent = data.evento_2;
+            p_lat.textContent = trama.latitud.toFixed(3);
+            p_lon.textContent = trama.longitud.toFixed(3);
+            p_apo.textContent = trama.apogeo;
+            p_arr.textContent = trama.evento_1;
+            p_mai.textContent = trama.evento_2;
 
-            fetch('/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-
-            setTimeout(loop, 1000);
         }
 
         loop();
