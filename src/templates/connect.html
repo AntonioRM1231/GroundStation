@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect</title>
+</head>
+<body>
+    <h1>Vista Connect</h1>
+    <div>
+        <label for="temperatura">Temperatura (C°):</label>
+        <input type="text" id="txtTemperatura"><br><br>
+
+        <label for="acelearcion">Aceleración (GS):</label>
+        <input type="text" id="txtAceleracion"><br><br>
+
+        <label for="velocidad">Velocidad (m/s):</label>
+        <input type="text" id="txtVelocidad"><br><br>
+
+        <label for="altitud">Altitud (m):</label>
+        <input type="text" id="txtAltitud"><br><br>
+
+        <label for="latitud">Latitud (°):</label>
+        <input type="text" id="txtLatitud"><br><br>
+
+        <label for="longitud">Longitud (°):</label>
+        <input type="text" id="txtLongitud"><br><br>
+        
+        <button id="btnSend">Enviar trama</button>
+        
+    </div>
+    
+    <script>
+        document.getElementById("btnSend").addEventListener('click',function(){
+            var temperatura = parseInt(document.getElementById('txtTemperatura').value);
+            var aceleracion = parseFloat(document.getElementById('txtAceleracion').value);
+            var velocidad = parseFloat(document.getElementById('txtVelocidad').value);
+            var altitud = parseFloat(document.getElementById('txtAltitud').value);
+            var latitud = parseFloat(document.getElementById('txtLatitud').value);
+            var longitud = parseFloat(document.getElementById('txtLongitud').value);
+            var apogeo = Boolean(Math.round(Math.random()));
+            var evento_1 = Boolean(Math.round(Math.random()));
+            var evento_2 = Boolean(Math.round(Math.random()));
+
+            var trama ={
+                    "temperatura": temperatura,
+                    "aceleracion": aceleracion,
+                    "velocidad": velocidad,
+                    "altitud": altitud,
+                    "latitud": latitud,
+                    "longitud": longitud,
+                    "apogeo": apogeo,
+                    "evento_1": evento_1,
+                    "evento_2": evento_2 
+            }
+
+            console.log(trama);
+
+
+        })
+    </script>
+
+</body>
+</html>

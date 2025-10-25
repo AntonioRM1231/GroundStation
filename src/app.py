@@ -10,6 +10,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/connect')
+def connect():
+    return render_template('connect.html')
+
 if __name__ == '__main__':
     #Usar '0.0.0.0' para que sea accesible en la red local 
     app.run(debug=True)
