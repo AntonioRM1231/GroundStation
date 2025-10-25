@@ -1,0 +1,158 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: black;
+}
+
+.button{
+    width: 250px;
+    height: 50px;
+    background-color: #4c007d;
+    border:solid 0px lavender;
+    border-radius: 10px;
+    color: lavender ;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-family: "Audiowide", sans-serif;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+}
+.item{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    margin: 5px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.title-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title-item > h2{
+    font-family: "Audiowide", sans-serif;
+    color: white;
+}
+.subtitle-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subtitle-item > h3{
+    font-family: "Audiowide", sans-serif;
+    color: white;
+}
+.coorBox{
+    display: flex;
+    /*flex-direction: column;*/
+    align-items: center;
+    justify-content: center;
+}
+.coorBox > p{
+    width: 200px;
+    margin: 10px;
+    font-family: "Audiowide", sans-serif;
+    color: white;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.flex-container{
+    display: flex;
+    background-color: black;
+    margin: 5px;
+    border: solid 3px transparent;
+    justify-content: center;
+}
+.graf-container{
+    flex: 1;
+    display: flex;
+    background-color: transparent;
+    margin: 10px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+}
+.control-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    margin: 10px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+}
+.chartCard{
+    width: 100vw;
+    height: calc(100vh-40px);
+    background: rgba(30, 35, 39, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.imgBox{
+    width: 200px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    background-color: black;
+}
+.imgBox > img{
+    width: 100%;
+    height: auto;
+}
+.chartBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    padding: 20px;
+    margin: 10px 40px;
+    border-radius: 20px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    background-color: black;
+}
+
+.chartBox h3{
+    font-family: "Audiowide", sans-serif;
+    color: white;
+}
+
+.donutBox{
+    width: 175px;
+    height: 165px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    border-radius: 20px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    background-color: black;
+}
+.donutBox > h4{
+    margin: 10px;
+    font-family: "Audiowide", sans-serif;
+    color: white;
+}
+
+.lineBox{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    margin: 10px;
+    border-radius: 20px;
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    background-color: black;
+    color: white;
+}

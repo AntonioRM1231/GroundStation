@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav></nav>
+
+    <div class="flex-container">
+        <div class="item">
+            <div class="donutBox">
+                <h4>Temperature (C°)</h4>
+                <canvas id="myChart5"></canvas>
+            </div>
+            <div class="donutBox">
+                <h4>Humidity (%)</h4>
+                <canvas id="myChart6"></canvas>
+            </div>
+            <div class="donutBox">
+                <h4>Pressure (hPa)</h4>
+                <canvas id="myChart7"></canvas>
+            </div>
+            <div class="donutBox">
+                <h4>CO2 (ppm)</h4>
+                <canvas id="myChart8"></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div class="title-item">
+                <h2>HYEPERNOVA AEROSPACE</h2>
+            </div>
+            <!--div class="imgBox">
+                <img src="{{ url_for('static', filename='images/peu_log.png') }}" alt="Logo">
+            </div-->
+            <div class="coorBox">
+                <p >Apogeo:</p>
+                <p id="p-apo"></p>
+            </div>
+            <div class="coorBox">
+                <p>Arrastre:</p>
+                <p id="p-arr"></p>
+            </div>
+            <div class="coorBox">
+                <p>Main:</p>
+                <p id="p-mai"></p>
+            </div>
+            
+        </div>
+        <div class="item">
+            <div class="subtitle-item"> 
+                <h3>Location panel</h3>
+            </div>
+            <div class="lineBox">
+                <canvas id="myChart9"></canvas>
+            </div>
+            <div class="coorBox">
+                <p>LATITUD:</p>
+                <p id="plat"></p>
+            </div>
+            <div class="coorBox">
+                <p>LONGITUD:</p>
+                <p id="plon"></p>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container">
+        <div class="chartBox">
+            <h3>Speed (m/s)</h3>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="chartBox">
+            <h3>Speed (rad/s)</h3>
+            <canvas id="myChart2"></canvas>
+        </div>
+        <div class="chartBox">
+            <h3>Acceleration (m/s&sup2)</h3>
+            <canvas id="myChart3"></canvas>
+        </div>
+        <div class="chartBox">
+            <h3>Acceleration (rad/s&sup2)</h3>
+            <canvas id="myChart4"></canvas>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+
+    <script>
+        // ======== CONFIGURACIÓN DE GRÁFICAS ========
+        const xValues = [];
+        const yValues = [];
+        const myChart9 = new Chart(document.getElementById('myChart9'), {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: 'Altitud',
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "black",
+                    borderColor: "white",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: true },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'FRAME', font: { size: 16 }, color: 'white' },
+                        ticks: { color: 'white' }
+                    },
+                    y: {
+                        title: { display: true, text: 'ALTITUD MSM', font: { size: 16 }, color: 'white' },
+                        ticks: { color: 'white' }
+                    }
+                }
+            }
+        });
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const gradientSegment = ctx.createLinearGradient(0, 0, 700, 0);
+        gradientSegment.addColorStop(0, '#E6E6FA');
+        gradientSegment.addColorStop(0.1, '#B886F4');
+        gradientSegment.addColorStop(0.5, '#800080');
+        gradientSegment.addColorStop(1, '#4B0082');
+
+        function createData(labels, label, datax, total, circumference, rotation) {
+            return {
+                labels,
+                datasets: [{
+                    label,
+                    data: [datax, total - datax],
+                    backgroundColor: [gradientSegment, 'rgba(0, 0, 0, 0.2)'],
+                    borderColor: [gradientSegment, 'rgba(0, 0, 0, 0.2)'],
+                    borderWidth: 1,
+                    cutout: '85%',
+                    circumference,
+                    rotation
+                }]
+            };
+        }
+
+        const data1 = createData(['Linear Speed', 'Empty'], 'Speedometer', 40, 100, 180, 270);
+        const data2 = createData(['Angular Speed', 'Empty'], 'Speedometer', 90, 100, 180, 270);
+        const data3 = createData(['Linear Acceleration', 'Empty'], 'Accelerometer', 60, 100, 180, 270);
+        const data4 = createData(['Angular Acceleration', 'Empty'], 'Accelerometer', 80, 100, 180, 270);
+        const data5 = createData(['Temperature', 'Empty'], 'Termometer', 30, 100, 360, 180);
+        const data6 = createData(['Humity', 'Empty'], 'Humity', 40, 100, 360, 180);
+        const data7 = createData(['Pressure', 'Empty'], 'Barometer', 0, 3000, 360, 180);
+        const data8 = createData(['CO2 Concentration', 'Empty'], 'CO2', 40, 100, 360, 180);
+
+        function contarCifras(numero) { return numero.toString().length; }
+
+        const gaugeChartText = {
+            id: 'gaugeChartText',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                const score = data.datasets[0].data[0];
+                const x = chart.getDatasetMeta(0).data[0].x;
+                const y = chart.getDatasetMeta(0).data[0].y;
+
+                ctx.font = '40px sans-serif';
+                ctx.fillStyle = 'white';
+                ctx.fillText(score, x - 25, y + 15);
+            }
+        };
+
+        const gaugeChartText2 = {
+            id: 'gaugeChartText2',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                const score = data.datasets[0].data[0];
+                const x = chart.getDatasetMeta(0).data[0].x;
+                const y = chart.getDatasetMeta(0).data[0].y;
+
+                ctx.font = '20px sans-serif';
+                ctx.fillStyle = 'white';
+                ctx.fillText(score, x - 10, y + 10);
+            }
+        };
+
+        function config(data, plugin) {
+            return {
+                type: 'doughnut',
+                data,
+                options: {
+                    aspectRatio: 1.5,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    responsive: true
+                },
+                plugins: [plugin]
+            };
+        }
+
+        const myChart  = new Chart(document.getElementById('myChart'), config(data1, gaugeChartText));
+        const myChart2 = new Chart(document.getElementById('myChart2'), config(data2, gaugeChartText));
+        const myChart3 = new Chart(document.getElementById('myChart3'), config(data3, gaugeChartText));
+        const myChart4 = new Chart(document.getElementById('myChart4'), config(data4, gaugeChartText));
+        const myChart5 = new Chart(document.getElementById('myChart5'), config(data5, gaugeChartText2));
+        const myChart6 = new Chart(document.getElementById('myChart6'), config(data6, gaugeChartText2));
+        const myChart7 = new Chart(document.getElementById('myChart7'), config(data7, gaugeChartText2));
+        const myChart8 = new Chart(document.getElementById('myChart8'), config(data8, gaugeChartText2));
+
+        // Elementos del DOM
+        const p_lat = document.getElementById('plat');
+        const p_lon = document.getElementById('plon');
+        const p_apo = document.getElementById('p-apo');
+        const p_arr = document.getElementById('p-arr');
+        const p_mai = document.getElementById('p-mai');
+
+        // Funciones para actualizar datos
+        function addData(chart, data) {
+            const now = new Date().toLocaleTimeString();
+            if (chart.data.labels.length > 20) {
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+            }
+            chart.data.labels.push(now);
+            chart.data.datasets[0].data.push(data);
+            chart.update();
+        }
+
+        function addData2(chart, data, total) {
+            chart.data.datasets[0].data = [data, total - data];
+            chart.update();
+        }
+
+        // ======== LOOP DE SIMULACIÓN ========
+        function loop() {
+            const totalP = 3000, totalT = 100, totalV = 200;
+            const data = {
+                temperature: Math.floor(Math.random() * totalT),
+                acceleration_l: Math.random() * totalV,
+                speed_l: Math.random() * totalV,
+                altitud: Math.random() * 1000 + 1000,
+                latitud: Math.random() * 90,
+                longitud: Math.random() * 180,
+                apogeo: Boolean(Math.round(Math.random())),
+                evento_1: Boolean(Math.round(Math.random())),
+                evento_2: Boolean(Math.round(Math.random()))
+            };
+
+            addData2(myChart5, data.temperature, totalT);
+            addData2(myChart3, data.acceleration_l, totalV);
+            addData2(myChart, data.speed_l, totalV);
+            addData(myChart9, data.altitud);
+            addData2(myChart7, data.altitud, totalP);
+            addData2(myChart8, data.altitud, totalP);
+
+            p_lat.textContent = data.latitud.toFixed(3);
+            p_lon.textContent = data.longitud.toFixed(3);
+            p_apo.textContent = data.apogeo;
+            p_arr.textContent = data.evento_1;
+            p_mai.textContent = data.evento_2;
+
+            fetch('/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            setTimeout(loop, 1000);
+        }
+
+        loop();
+    </script>
+</body>
+</html>
