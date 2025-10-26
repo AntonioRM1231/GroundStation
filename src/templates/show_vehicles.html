@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Vehículos</title>
+</head>
+<body>
+    <h1>Vehículos Registrados</h1>
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vehiculos %}
+            <tr>
+                <td>{{ v.id }}</td>
+                <td>{{ v.nombre }}</td>
+                <td>{{ v.categoria }}</td>
+                <td>{{ v.tipo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/add_vehicle">Agregar nuevo vehículo</a>
+</body>
+</html>
