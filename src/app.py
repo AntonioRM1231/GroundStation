@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'web_sockets'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/Estacion_vuelo'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/Estacion_vuelo2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 socketio = SocketIO(app)
@@ -85,9 +85,13 @@ def add_mission():
         db.session.add(nueva_mision)
         db.session.commit()
 
-        return redirect(url_for('show_mission'))
+        # En lugar de redirect, mostramos mensaje y luego redirigimos
+        return render_template('success_redirect.html',
+                               mensaje="✅ Misión añadida correctamente",
+                               destino=url_for('graficas_admin'))
 
     return render_template('add_mission.html', vehiculos=vehiculos)
+
 
 
 
@@ -95,6 +99,12 @@ def add_mission():
 def show_mission():
     misiones = Mission.query.all()
     return render_template('show_mission.html', misiones=misiones)
+
+
+
+@app.route('/graficas_admin')
+def graficas_admin():
+    return render_template('graficas_admin.html')
 
 
 

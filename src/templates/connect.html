@@ -12,6 +12,12 @@
         <label for="temperatura">Temperatura (C°):</label>
         <input type="text" id="txtTemperatura"><br><br>
 
+        <label for="pressure">Presion (kPa):</label>
+        <input type="text" id="txtPressure"><br><br>
+
+        <label for="pressure">Humedad %:</label>
+        <input type="text" id="txtHumedad"><br><br>
+
         <label for="acelearcion">Aceleración (GS):</label>
         <input type="text" id="txtAceleracion"><br><br>
 
@@ -27,6 +33,12 @@
         <label for="longitud">Longitud (°):</label>
         <input type="text" id="txtLongitud"><br><br>
 
+        <label for="temperatura_M">Temperatura Mision(C°):</label>
+        <input type="text" id="txtTemperatura_M"><br><br>
+
+        <label for="pressure_M">Presion Mision (kPa):</label>
+        <input type="text" id="txtPressure_M"><br><br>
+
         <button id="btnSend">Enviar trama</button>
         
     </div>
@@ -35,6 +47,8 @@
         var socket = io();
         document.getElementById("btnSend").addEventListener('click',function(){
             var temperatura = parseInt(document.getElementById('txtTemperatura').value);
+            var presion  = parseInt(document.getElementById('txtPressure').value);
+            var humedad  = parseInt(document.getElementById('txtHumedad').value);
             var aceleracion = parseFloat(document.getElementById('txtAceleracion').value);
             var velocidad = parseFloat(document.getElementById('txtVelocidad').value);
             var altitud = parseFloat(document.getElementById('txtAltitud').value);
@@ -43,9 +57,13 @@
             var apogeo = Boolean(Math.round(Math.random()));
             var evento_1 = Boolean(Math.round(Math.random()));
             var evento_2 = Boolean(Math.round(Math.random()));
+            var temperatura_M = parseInt(document.getElementById('txtTemperatura_M').value);
+            var presion_M  = parseFloat(document.getElementById('txtPressure_M').value);
 
             var trama ={
                     "temperatura": temperatura,
+                    "presion": presion,
+                    "humedad": humedad,
                     "aceleracion": aceleracion,
                     "velocidad": velocidad,
                     "altitud": altitud,
@@ -53,7 +71,9 @@
                     "longitud": longitud,
                     "apogeo": apogeo,
                     "evento_1": evento_1,
-                    "evento_2": evento_2 
+                    "evento_2": evento_2,
+                    "temperatura_M": temperatura_M,
+                    "presion_M": presion_M
             }
 
             console.log(trama);
