@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Misión</title>
+</head>
+
+<body>
+    <h1>Registrar Misión</h1>
+
+    <form action="/add_mission" method="POST">
+        <label>Nombre de la misión:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Lugar:</label><br>
+        <input type="text" name="lugar" required><br><br>
+
+        <label>Vehículo:</label><br>
+        <select name="id_vehiculo" required>
+            <option value="">Seleccione un vehículo</option>
+            {% for v in vehiculos %}
+                <option value="{{ v.id }}">{{ v.nombre }} - {{ v.categoria }} ({{ v.tipo }})</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <br>
+    <a href="/show_mission">Ver misiones registradas</a><br>
+    <a href="/show_vehicles">Ver lista de vehículos</a>
+</body>
+</html>

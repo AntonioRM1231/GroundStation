@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Misiones Registradas</title>
+</head>
+
+<body>
+    <h1>Lista de Misiones</h1>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Lugar</th>
+            <th>Vehículo</th>
+        </tr>
+
+        {% for m in misiones %}
+        <tr>
+            <td>{{ m.id }}</td>
+            <td>{{ m.nombre }}</td>
+            <td>{{ m.fecha }}</td>
+            <td>{{ m.lugar }}</td>
+            <td>{{ m.vehiculo.nombre }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/add_mission">Agregar nueva misión</a>
+</body>
+</html>

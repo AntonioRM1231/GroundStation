@@ -19,6 +19,16 @@ class Vehiculo(db.Model):
     categoria = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(100), nullable=False)
 
+class Mission(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(30), nullable=False)
+    fecha = db.Column(db.DateTime, default=db.func.current_timestamp())
+    lugar = db.Column(db.String(30), nullable=False)
+    id_vehiculo = db.Column(db.Integer, db.ForeignKey('vehiculo.id'), nullable=False)
+
+    vehiculo = db.relationship('Vehiculo', backref=db.backref('misiones', lazy=True))
+
+
 # ======================
 # RUTAS
 # ======================
@@ -51,6 +61,43 @@ def add_vehicle():
 def show_vehicles():
     vehiculos = Vehiculo.query.all()
     return render_template('show_vehicles.html', vehiculos=vehiculos)
+
+
+
+
+
+
+# ---- FORMULARIO PARA AGREGAR MISIÓN ----
+@app.route('/add_mission', methods=['GET', 'POST'])
+def add_mission():
+    vehiculos = Vehiculo.query.all()  # Para el combobox
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        lugar = request.form['lugar']
+        id_vehiculo = request.form['id_vehiculo']
+
+        nueva_mision = Mission(
+            nombre=nombre,
+            lugar=lugar,
+            id_vehiculo=id_vehiculo
+        )
+        db.session.add(nueva_mision)
+        db.session.commit()
+
+        return redirect(url_for('show_mission'))
+
+    return render_template('add_mission.html', vehiculos=vehiculos)
+
+
+
+@app.route('/show_mission')
+def show_mission():
+    misiones = Mission.query.all()
+    return render_template('show_mission.html', misiones=misiones)
+
+
+
 
 # ======================
 # SOCKETS
