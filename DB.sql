@@ -46,7 +46,7 @@ CREATE TABLE usuarios (
     tipo_usuario ENUM('admin', 'usuario') DEFAULT 'usuario'
 );
 
-select * from usuarios;
+
 
 INSERT INTO usuarios (correo, password, tipo_usuario)
 VALUES ( 'marogluna@gmail.com', 'Marco.123', 'admin' );
